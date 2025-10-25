@@ -3,132 +3,97 @@
  */
 package com.example.app;
 
-import java.util.ArrayList;
-
-import com.example.Animals.Animal;
-import com.example.Animals.Kangaroo;
-import com.example.Animals.Rabbit;
-import com.example.Animals.Tiger;
-import com.example.Animals.Wolf;
-import com.example.Jobs.Builder;
-import com.example.Jobs.Human;
-import com.example.Jobs.Pilot;
-import com.example.Jobs.Sailor;
-import com.example.University.Course;
-import com.example.University.Group;
-import com.example.University.Student;
+import com.example.app.BuildingCompany.Building.House;
+import com.example.app.BuildingCompany.Workers.IWorker;
+import com.example.app.BuildingCompany.Workers.Team;
+import com.example.app.BuildingCompany.Workers.TeamLeader;
+import com.example.app.BuildingCompany.Workers.Worker;
+import com.example.app.Crypt.ACipher;
+import com.example.app.Crypt.BCipher;
+import com.example.app.Crypt.ICipher;
+import com.example.app.Instruments.Instrument;
 
 public class App {
 
     public static void main(String[] args) {
-
         Task1();
         Task2();
         Task3();
-        Task4();
     }
 
-    private static void Task1() {
-        System.out.println("//1\n");
-        Book temp_1 = new Book("ex", "ExAuthor", 2000, "ex2", "genere", 100);
+    public static void Task1() {
+        // Если что я пользуюсь авто комплитом (авто комплит заполнил все данные ниже*)
+        Instrument violin = new Instrument(
+                "Violin",
+                "Screech",
+                "A violin is a wooden string instrument.",
+                "The violin was developed in 16th-century Italy."
+        );
+
+        Instrument trombone = new Instrument(
+                "Trombone",
+                "Blat",
+                "A trombone is a brass instrument.",
+                "The trombone was developed in the 15th century."
+        );
+
+        Instrument ukulele = new Instrument(
+                "Ukulele",
+                "Strum",
+                "A ukulele is a small, guitar-like instrument.",
+                "The ukulele originated in Hawaii in the 19th century."
+        );
+
+        Instrument violoncello = new Instrument(
+                "Violoncello",
+                "Deep hum",
+                "A violoncello, or cello, is a bowed string instrument.",
+                "The cello was developed in the early 16th century."
+        );
     }
 
-    private static void Task2() {
-        System.out.println("//2\n");
-        ArrayList<Human> f = new ArrayList<>();
-        f.add(new Builder("Ex1", 3, 2, "eq"));
-        f.add(new Sailor("Ex2", 2, 1, "ew"));
-        f.add(new Pilot("Ex3", 4, 3, "er"));
+    public static void Task2() {
+        ICipher aCipher = new ACipher();
+        String originalText = "Hello, World!";
+        String encodedText = aCipher.encode(originalText);
+        String decodedText = aCipher.decode(encodedText);
 
-        long rax = 0;
-        for (Human x : f) {
-            rax += x.getChildren();
-        }
+        System.out.println("ACipher:");
+        System.out.println("Original: " + originalText);
+        System.out.println("Encoded: " + encodedText);
+        System.out.println("Decoded: " + decodedText);
 
-        System.out.println("children: " + rax);
+        // -----
+        ICipher bCipher = new BCipher();
+        String bEncodedText = bCipher.encode(originalText);
+        String bDecodedText = bCipher.decode(bEncodedText);
+
+        System.out.println("BCipher:");
+        System.out.println("Original: " + originalText);
+        System.out.println("Encoded: " + bEncodedText);
+        System.out.println("Decoded: " + bDecodedText);
     }
 
-    private static void Task3() {
-        System.out.println("//3\n");
-        Group group = new Group("ІП-21");
+    public static void Task3() {
+        House house = new House(
+                1,
+                4,
+                1,
+                4,
+                1);
 
-        Student s1 = new Student("a1");
-        s1.addCourse(new Course("1", 1, 75, true));
-        s1.addCourse(new Course("2", 1, 55, false));
+        Team team = new Team(new IWorker[]{
+            new Worker(),
+            new Worker(),
+            new Worker(),
+            new Worker(),
+            new TeamLeader()
+        });
 
-        Student s2 = new Student("a2");
-        s2.addCourse(new Course("1", 1, 90, true));
-        s2.addCourse(new Course("2", 1, 65, true));
-
-        Student s3 = new Student("a3");
-        s3.addCourse(new Course("1", 1, 45, false));
-        s3.addCourse(new Course("2", 1, 50, false));
-
-        group.addStudent(s1);
-        group.addStudent(s2);
-        group.addStudent(s3);
-
-        ArrayList<Student> debtors = group.studentsWithAnyDebt();
-        for (int i = 0; i < debtors.size(); i++) {
-            System.out.println(" - " + debtors.get(i).getName());
+        while (!house.isCompleted()) {
+            team.work(house);
         }
 
-        ArrayList<Student> clean = group.studentsWithoutDebts();
-        for (int i = 0; i < clean.size(); i++) {
-            System.out.println(" - " + clean.get(i).getName());
-        }
-
-        String[] worst = group.coursesWithMaxFails();
-        if (worst.length == 0) {
-            System.out.println(" - empty");
-        }
-        for (int i = 0; i < worst.length; i++) {
-            System.out.println(" - " + worst[i]);
-        }
-
-        ArrayList<Student> all = group.getStudents();
-        for (int i = 0; i < all.size(); i++) {
-            Student st = all.get(i);
-            double avg = st.averagePassed();
-            if (Double.isNaN(avg)) {
-                System.out.println(" - " + st.getName() + ": none");
-            } else {
-                System.out.println(" - " + st.getName() + ": " + avg);
-            }
-        }
-
-        int sem = 1;
-        Student chosen = s2;
-        System.out.println(chosen.getName() + " " + sem + ":");
-        ArrayList<Course> inSem = chosen.coursesInSemester(sem);
-        for (int i = 0; i < inSem.size(); i++) {
-            System.out.println(" - " + inSem.get(i).getName());
-        }
-    }
-
-    private static void Task4() {
-        System.out.println("//4\n");
-        ArrayList<Animal> zoo = new ArrayList<>();
-        zoo.add(new Tiger("a1", 8.0));
-        zoo.add(new Wolf("a2", 5.0));
-        zoo.add(new Rabbit("a3", 0.5));
-        zoo.add(new Kangaroo("a4", 3.0));
-
-        int p = 0;
-        double fP = 0.0;
-        double fH = 0.0;
-
-        for (int i = 0; i < zoo.size(); i++) {
-            Animal a = zoo.get(i);
-            System.out.println(a.getName() + ": \"" + a.sound() + "\"; " + a.getDaily());
-            if (a.isPredator()) {
-                p++;
-                fP += a.getDaily();
-            } else {
-                fH += a.getDaily();
-            }
-        }
-        System.out.println(p);
-        System.out.println(fP + " " + fH);
+        System.out.println("House construction completed!");
     }
 }
