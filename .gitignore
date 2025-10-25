@@ -1,0 +1,36 @@
+# Gradle
+.gradle/
+**/build/
+
+!gradle/wrapper/gradle-wrapper.jar
+!gradlew
+!gradlew.bat
+!gradle/wrapper/gradle-wrapper.properties
+
+# IDE
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+# VS Code
+.vscode/
+# Eclipse
+.project
+.classpath
+.settings/
+
+*.class
+hs_err_pid*
+replay_pid*
+
+*.log
+*.tmp
+*.swp
+*~
+
+.DS_Store
+Thumbs.db
+**/bin/
+**/out/
+.env
