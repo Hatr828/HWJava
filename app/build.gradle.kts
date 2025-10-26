@@ -6,7 +6,7 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
+    id("io.freefair.lombok") version "8.10"
     application
 }
 

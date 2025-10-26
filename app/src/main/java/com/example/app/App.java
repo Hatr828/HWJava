@@ -3,97 +3,20 @@
  */
 package com.example.app;
 
-import com.example.app.BuildingCompany.Building.House;
-import com.example.app.BuildingCompany.Workers.IWorker;
-import com.example.app.BuildingCompany.Workers.Team;
-import com.example.app.BuildingCompany.Workers.TeamLeader;
-import com.example.app.BuildingCompany.Workers.Worker;
-import com.example.app.Crypt.ACipher;
-import com.example.app.Crypt.BCipher;
-import com.example.app.Crypt.ICipher;
-import com.example.app.Instruments.Instrument;
+import com.example.app.Library.Catalog;
+import com.example.app.Library.Book;
 
 public class App {
 
     public static void main(String[] args) {
-        Task1();
-        Task2();
-        Task3();
-    }
+        Catalog catalog = new Catalog();
+        catalog.TestInitialization();
+        catalog.showInfo();
 
-    public static void Task1() {
-        // Если что я пользуюсь авто комплитом (авто комплит заполнил все данные ниже*)
-        Instrument violin = new Instrument(
-                "Violin",
-                "Screech",
-                "A violin is a wooden string instrument.",
-                "The violin was developed in 16th-century Italy."
-        );
-
-        Instrument trombone = new Instrument(
-                "Trombone",
-                "Blat",
-                "A trombone is a brass instrument.",
-                "The trombone was developed in the 15th century."
-        );
-
-        Instrument ukulele = new Instrument(
-                "Ukulele",
-                "Strum",
-                "A ukulele is a small, guitar-like instrument.",
-                "The ukulele originated in Hawaii in the 19th century."
-        );
-
-        Instrument violoncello = new Instrument(
-                "Violoncello",
-                "Deep hum",
-                "A violoncello, or cello, is a bowed string instrument.",
-                "The cello was developed in the early 16th century."
-        );
-    }
-
-    public static void Task2() {
-        ICipher aCipher = new ACipher();
-        String originalText = "Hello, World!";
-        String encodedText = aCipher.encode(originalText);
-        String decodedText = aCipher.decode(encodedText);
-
-        System.out.println("ACipher:");
-        System.out.println("Original: " + originalText);
-        System.out.println("Encoded: " + encodedText);
-        System.out.println("Decoded: " + decodedText);
-
-        // -----
-        ICipher bCipher = new BCipher();
-        String bEncodedText = bCipher.encode(originalText);
-        String bDecodedText = bCipher.decode(bEncodedText);
-
-        System.out.println("BCipher:");
-        System.out.println("Original: " + originalText);
-        System.out.println("Encoded: " + bEncodedText);
-        System.out.println("Decoded: " + bDecodedText);
-    }
-
-    public static void Task3() {
-        House house = new House(
-                1,
-                4,
-                1,
-                4,
-                1);
-
-        Team team = new Team(new IWorker[]{
-            new Worker(),
-            new Worker(),
-            new Worker(),
-            new Worker(),
-            new TeamLeader()
-        });
-
-        while (!house.isCompleted()) {
-            team.work(house);
+        System.out.println("Books with less than 1000 pages:");
+        for (Book book : catalog.getByLessThanPages(1000)) {
+            book.showInfo();
         }
-
-        System.out.println("House construction completed!");
     }
+
 }
