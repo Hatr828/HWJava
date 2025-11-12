@@ -1,28 +1,21 @@
-package com.example.app.Library;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NonNull;
-import lombok.ToString;
+package Library;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-@ToString
 public class Newspaper {
-    @Getter @Setter @NonNull
     private String name;
 
-    @Getter @Setter @NonNull
     private LocalDate datePublished;
 
     private final List<String> headers = new ArrayList<>();
 
     public Newspaper(String name, LocalDate datePublished) {
-        this.name = name;
-        this.datePublished = datePublished;
+        this.name = Objects.requireNonNull(name);
+        this.datePublished = Objects.requireNonNull(datePublished);
     }
 
     public Newspaper(String name, LocalDate datePublished, List<String> headers) {
@@ -43,5 +36,30 @@ public class Newspaper {
         System.out.println("Date Published: " + datePublished);
         System.out.println("Headers:");
         for (String h : headers) System.out.println("- " + h);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = Objects.requireNonNull(name);
+    }
+
+    public LocalDate getDatePublished() {
+        return datePublished;
+    }
+
+    public void setDatePublished(LocalDate datePublished) {
+        this.datePublished = Objects.requireNonNull(datePublished);
+    }
+
+    @Override
+    public String toString() {
+        return "Newspaper{" +
+                "name='" + name + '\'' +
+                ", datePublished=" + datePublished +
+                ", headers=" + headers +
+                '}';
     }
 }
