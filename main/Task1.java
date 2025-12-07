@@ -1,43 +1,41 @@
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.temporal.ChronoUnit;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Task1 {
-    private static final Predicate<Integer> IS_LEAP = year -> Year.isLeap(year);
-    private static final BiFunction<LocalDate, LocalDate, Long> DAYS_BETWEEN =
-            (start, end) -> Math.abs(ChronoUnit.DAYS.between(start, end));
-    private static final BiFunction<LocalDate, LocalDate, Long> FULL_SUNDAYS_BETWEEN = (start, end) -> {
-        LocalDate from = start.isAfter(end) ? end : start;
-        LocalDate to = start.isAfter(end) ? start : end;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter path to the first file: ");
+        Path first = Path.of(scanner.nextLine().trim());
+        System.out.print("Enter path to the second file: ");
+        Path second = Path.of(scanner.nextLine().trim());
 
-        LocalDate firstSunday = from.plusDays(
-                (DayOfWeek.SUNDAY.getValue() - from.getDayOfWeek().getValue() + 7) % 7);
-        if (firstSunday.isAfter(to)) {
-            return 0L;
+        try {
+            List<String> firstLines = Files.readAllLines(first);
+            List<String> secondLines = Files.readAllLines(second);
+
+            if (firstLines.equals(secondLines)) {
+                System.out.println("Files are identical line by line.");
+                return;
+            }
+
+            int max = Math.max(firstLines.size(), secondLines.size());
+            System.out.println("Non-matching lines:");
+            for (int i = 0; i < max; i++) {
+                String fromFirst = i < firstLines.size() ? firstLines.get(i) : null;
+                String fromSecond = i < secondLines.size() ? secondLines.get(i) : null;
+                if (!Objects.equals(fromFirst, fromSecond)) {
+                    int humanIndex = i + 1;
+                    System.out.println("Line " + humanIndex + ":");
+                    System.out.println("  First : " + fromFirst);
+                    System.out.println("  Second: " + fromSecond);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
-        long weeks = ChronoUnit.DAYS.between(firstSunday, to) / 7;
-        return weeks + 1;
-    };
-    private static final Function<LocalDate, DayOfWeek> DAY_OF_WEEK = LocalDate::getDayOfWeek;
-
-    public static void run() {
-        System.out.println("Task 1:");
-
-        int sampleYear = 2024;
-        LocalDate apolloLanding = LocalDate.of(1969, 7, 20);
-        LocalDate now = LocalDate.now();
-
-        System.out.println(sampleYear + " leap year? " + IS_LEAP.test(sampleYear));
-        System.out.println("Days between " + apolloLanding + " and " + now + ": "
-                + DAYS_BETWEEN.apply(apolloLanding, now));
-        System.out.println("Full Sundays between " + apolloLanding + " and " + now + ": "
-                + FULL_SUNDAYS_BETWEEN.apply(apolloLanding, now));
-        System.out.println(apolloLanding + " was " + DAY_OF_WEEK.apply(apolloLanding));
-        System.out.println();
     }
 }

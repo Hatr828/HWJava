@@ -1,26 +1,25 @@
 {
-    "hide-files.files": [
-        ".vscode/settings.json",
-        "main/Television.class",
-        "main/TelevisionCriteria.class",
-        "main/App.class",
-        "main/Task1.class",
-        "main/Task2.class",
-        "main/Task3.class"
-    ],
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        ".vscode/settings.json": true,
-        "main/Television.class": true,
-        "main/TelevisionCriteria.class": true,
         "main/App.class": true,
         "main/Task1.class": true,
         "main/Task2.class": true,
-        "main/Task3.class": true
-    }
-   
+        "main/Task3.class": true,
+        "main/Task4.class": true,
+        "main/Task5/Employee.class": true,
+        "main/Task5/Task5.class": true
+    },
+    "hide-files.files": [
+        "main/App.class",
+        "main/Task1.class",
+        "main/Task2.class",
+        "main/Task3.class",
+        "main/Task4.class",
+        "main/Task5/Employee.class",
+        "main/Task5/Task5.class"
+    ]
 }

@@ -1,35 +1,33 @@
-import java.util.Arrays;
-import java.util.function.IntPredicate;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Scanner;
 
 public class Task2 {
-    private static int sumMatching(int[] numbers, IntPredicate predicate) {
-        return Arrays.stream(numbers)
-                .filter(predicate)
-                .sum();
-    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter path to the file: ");
+        Path path = Path.of(scanner.nextLine().trim());
 
-    private static void printSum(String label, int[] numbers, IntPredicate predicate) {
-        int sum = sumMatching(numbers, predicate);
-        System.out.printf("Sum of numbers %s: %d%n", label, sum);
-    }
+        try {
+            List<String> lines = Files.readAllLines(path);
+            if (lines.isEmpty()) {
+                System.out.println("File is empty.");
+                return;
+            }
 
-    public static void run() {
-        System.out.println("Task 2:");
+            String longestLine = "";
+            for (String line : lines) {
+                if (line.length() > longestLine.length()) {
+                    longestLine = line;
+                }
+            }
 
-        int[] numbers = {-5, -1, 0, 1, 2, 3, 5, 10, 15};
-        int target = 5;
-        int a = 3;
-        int b = 8;
-
-        IntPredicate equalToTarget = n -> n == target;
-        IntPredicate outsideRange = n -> n < a || n > b;
-        IntPredicate positive = n -> n > 0;
-        IntPredicate negative = n -> n < 0;
-
-        printSum("== " + target, numbers, equalToTarget);
-        printSum("outside [" + a + "; " + b + "]", numbers, outsideRange);
-        printSum("positive (>0)", numbers, positive);
-        printSum("negative (<0)", numbers, negative);
-        System.out.println();
+            System.out.println("Longest line (" + longestLine.length() + " characters):");
+            System.out.println(longestLine);
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
